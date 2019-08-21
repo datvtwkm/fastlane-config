@@ -15,6 +15,9 @@ private_lane :setup_env_in_util do |options|
     ENV["DEPLOYGATE_API_TOKEN"] = "e124f2fc07137e9088168eca83e748340ab79cfa"
   
     ENV["SLACK_URL"] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+    ENV["KEYSTORE_ENCRYPT_SECRET_KEY"] = "1FEED8DCFF3F1957541C517F4B0C8056A566A93E19136B9FA6FC6B9C093FC065"
+
   end
   
   # 開発の証明書の取得
@@ -51,11 +54,12 @@ private_lane :setup_env_in_util do |options|
   private_lane :build_flutter_in_util do |options|
   
     codesign = options[:platform] == "ios" ? "--no-codesign" : ""
+    platform = options[:platform] == "appbundle" ? "--target-platform android-arm,android-arm64" : ""
   
     if is_ci?
-      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} -v")
+      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} #{platform} -v")
     else
-      sh("cd ../../ && flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} -v")
+      sh("cd ../../ && flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} #{platform} -v")
     end
   end
   
@@ -76,4 +80,12 @@ private_lane :setup_env_in_util do |options|
       release_note: options[:release_note],
       message: "[#{last_git_commit[:abbreviated_commit_hash]}] - #{last_git_commit[:message]}",
     )
+  end
+  # download keystore and encoce
+  private_lane :fetch_keystore do |options|
+    sh("git clone https://github.com/datvtwkm/keystore-encrypted.git")
+    sh("cd ./keystore-encrypted")
+    sh("openssl aes-256-cbc -d -in keystore.jks.encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} >> keystore.jks")
+    sh("mv keystore.jks ../")
+    sh("cd .. && ls")
   end
