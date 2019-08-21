@@ -87,7 +87,7 @@ private_lane :setup_env_in_util do |options|
     sh("rm -rf keystore-encrypted")
     sh("git clone https://github.com/datvtwkm/keystore-encrypted.git")
     sh("cd ./keystore-encrypted && ls")
-    sh("openssl aes-256-cbc -d -in \"keystore.jks.encrypted\" -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} >> keystore.jks")
+    sh("openssl aes-256-cbc -d -in README.md -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} >> keystore.jks")
     sh("mv keystore.jks ../")
     sh("cd .. && ls")
   end
