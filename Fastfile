@@ -53,9 +53,9 @@ private_lane :setup_env_in_util do |options|
     codesign = options[:platform] == "ios" ? "--no-codesign" : ""
   
     if is_ci?
-      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign}")
+      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} -v")
     else
-      sh("cd ../../ && flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign}")
+      sh("cd ../../ && flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} -v")
     end
   end
   
@@ -71,7 +71,7 @@ private_lane :setup_env_in_util do |options|
   
     deploygate(
       api_token: ENV["DEPLOYGATE_API_TOKEN"],
-      user: 'deploygateUser',
+      user: 'datvtwkm',
       apk: options[:apk],
       release_note: options[:release_note],
       message: "[#{last_git_commit[:abbreviated_commit_hash]}] - #{last_git_commit[:message]}",
