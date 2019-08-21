@@ -83,7 +83,7 @@ private_lane :setup_env_in_util do |options|
   end
   # download keystore and encoce
   private_lane :fetch_keystore do |options|
-    sh("apk add openssl")
+    sh("openssl version -a")
     sh("rm -rf keystore-encrypted")
     sh("git clone https://github.com/datvtwkm/keystore-encrypted.git")
     sh("cd ./keystore-encrypted && ls")
