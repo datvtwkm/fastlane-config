@@ -83,11 +83,17 @@ private_lane :setup_env_in_util do |options|
   end
   # download keystore and encoce
   private_lane :fetch_keystore do |options|
-    sh("openssl version -a")
-    sh("rm -rf keystore-encrypted")
-    sh("git clone https://github.com/datvtwkm/keystore-encrypted.git")
-    sh("cd ./keystore-encrypted && ls")
-    sh("openssl aes-256-cbc  -d -in keystore-encrypted/keystore-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']}  >> keystore.jks")
-    sh("mv keystore.jks ../")
-    sh("cd .. && ls")
+    sh("cd .. 
+    && rm -rf keystore-encrypted
+    && git clone https://github.com/datvtwkm/keystore-encrypted.git
+    && cd ./keystore-encrypted
+    && openssl aes-256-cbc  -d -in keystore-encrypted/keystore-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']}  >> keystore.jks
+    && mv keystore.jks ../
+    && cd ..
+    && rm -rf keystore-encrypted")
+    # sh("git clone https://github.com/datvtwkm/keystore-encrypted.git")
+    # sh("cd ./keystore-encrypted && ls")
+    # sh("openssl aes-256-cbc  -d -in keystore-encrypted/keystore-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']}  >> keystore.jks")
+    # sh("mv keystore.jks ../")
+    # sh("cd .. && ls")
   end
