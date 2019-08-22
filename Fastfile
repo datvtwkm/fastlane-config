@@ -52,17 +52,19 @@ private_lane :setup_env_in_util do |options|
   
   # Flutter App をビルドする
   private_lane :build_flutter_in_util do |options|
+    flavor = options[:flavor]
     file_type = options[:file_type]
+    target = options[:target]
     version = options[:version]
     build_number = options[:build_number]
-    
+
     codesign = file_type == "ipa" ? "--no-codesign" : ""
     target_platform = file_type == "appbundle" ? "--target-platform android-arm,android-arm64" : ""
   
     if is_ci?
-      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
+      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
     else
-      sh("cd ../../ &&                   flutter build #{options[:platform]} --release --flavor #{options[:flavor]} --target #{options[:target]} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
+      sh("cd ../../ &&                   flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
     end
   end
   
