@@ -103,8 +103,8 @@ private_lane :setup_env_in_util do |options|
     sh("openssl aes-256-cbc  -d -in jsonkey-encrypted/jsonkey-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> json_key.json")
   end
 
-  # clean keystore 
-  private_lane :clean_keystore do |options|
+  # clean jsonkey 
+  private_lane :clean_jsonkey do |options|
     sh("rm -rf jsonkey-encrypted");
     sh("rm -rf json_key.json");
   end
