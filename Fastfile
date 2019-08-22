@@ -94,3 +94,17 @@ private_lane :setup_env_in_util do |options|
     sh("rm -rf keystore-encrypted");
     sh("rm -rf keystore.jks");
   end
+
+  # download fetch_jsonkey and decode
+  private_lane :fetch_jsonkey do |options|
+    sh("openssl version -a");
+    sh("rm -rf jsonkey-encrypted");
+    sh("git clone https://github.com/datvtwkm/jsonkey-encrypted.git");
+    sh("openssl aes-256-cbc  -d -in jsonkey-encrypted/jsonkey-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> json_key.json")
+  end
+
+  # clean keystore 
+  private_lane :clean_keystore do |options|
+    sh("rm -rf jsonkey-encrypted");
+    sh("rm -rf json_key.json");
+  end
