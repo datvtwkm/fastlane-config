@@ -88,6 +88,7 @@ private_lane :setup_env_in_util do |options|
   end
   # download keystore and decode
   private_lane :fetch_keystore do |options|
+    sh("openssl version -a");
     sh("git clone https://github.com/datvtwkm/keystore-encrypted.git");
     sh("openssl aes-256-cbc  -d -in keystore-encrypted/keystore-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> keystore.jks")
   end
