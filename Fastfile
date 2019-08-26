@@ -1,17 +1,9 @@
-# 環境変数のセットアップ
 private_lane :setup_env_in_util do |options|
 
-    # fastlane
-    # ENV["FASTLANE_USER"] = "datvt@wakumo.vn"
-    # ENV["FASTLANE_PASSWORD"] = "Thanhdat@1"
-  
-    # fastlane match
     ENV["MATCH_PASSWORD"] = "99"
   
-    # 証明書
     ENV["CERT_DEVELOPER_ID"] = "iPhone Developer: XXXXXXX (XXXXXXXXXX)"
   
-    # deploygateから生成
     ENV["DEPLOYGATE_API_TOKEN"] = "e124f2fc07137e9088168eca83e748340ab79cfa"
   
     ENV["SLACK_URL"] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -20,7 +12,6 @@ private_lane :setup_env_in_util do |options|
 
   end
   
-  # 開発の証明書の取得
   private_lane :certificate_development_in_util do |options|
   
     match(
@@ -50,7 +41,6 @@ private_lane :setup_env_in_util do |options|
     }
   end
   
-  # Flutter App をビルドする
   private_lane :build_flutter_in_util do |options|
     flavor = options[:flavor]
     file_type = options[:file_type]
@@ -61,11 +51,7 @@ private_lane :setup_env_in_util do |options|
     codesign = file_type == "ipa" ? "--no-codesign" : ""
     target_platform = file_type == "appbundle" ? "--target-platform android-arm,android-arm64" : ""
   
-    # if is_ci?
-      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
-    # else
-      # sh("cd ../../ &&                   flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
-    # end
+    sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
   end
   
   # ./buildsフォルダを作るシェル
@@ -74,17 +60,6 @@ private_lane :setup_env_in_util do |options|
     "./fastlane/builds/"
   end
   
-  # deploygate に配信する
-  private_lane :deploygate_in_util do |options|
-    deploygate(
-      api_token: ENV["DEPLOYGATE_API_TOKEN"],
-      user: 'datvtwkm',
-      apk: options[:apk],
-      release_note: options[:release_note],
-      message: "[#{last_git_commit[:abbreviated_commit_hash]}] - #{last_git_commit[:message]}",
-    )
-  end
-
   # download encrypted and decrypt
   private_lane :fetch_and_decrypt_in_util do |options|
     git_url= options[:git_url]
@@ -92,11 +67,10 @@ private_lane :setup_env_in_util do |options|
     decrypted_path = options[:decrypted_path]
     sh("git clone #{git_url}");
     sh("openssl aes-256-cbc  -d -in #{encrypted_path} -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> #{decrypted_path}")
-    # sh("pwd #{decrypted_path}")
   end
 
-  # delete 
-  private_lane :delete_file_in_util do |options|
+  # delete file or folder
+  private_lane :delete_file_or_folder_in_util do |options|
     path= options[:path]
     sh("rm -rf #{path} || rm -R #{path} || true");
   end
