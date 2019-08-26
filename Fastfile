@@ -98,5 +98,5 @@ private_lane :setup_env_in_util do |options|
   # delete 
   private_lane :delete_file_in_util do |options|
     path= options[:path]
-    sh("[ -f #{path} ] && rm -f #{path}");
+    sh("[ ! -e #{path} ] && rm #{path}");
   end
