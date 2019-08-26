@@ -62,9 +62,9 @@ private_lane :setup_env_in_util do |options|
     target_platform = file_type == "appbundle" ? "--target-platform android-arm,android-arm64" : ""
   
     # if is_ci?
-    #   sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
+      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
     # else
-      sh("cd ../../ &&                   flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
+      # sh("cd ../../ &&                   flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
     # end
   end
   
