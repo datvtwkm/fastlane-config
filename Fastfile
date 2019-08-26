@@ -92,7 +92,7 @@ private_lane :setup_env_in_util do |options|
     decrypted_path = options[:decrypted_path]
     sh("git clone #{git_url}");
     sh("openssl aes-256-cbc  -d -in #{encrypted_path} -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> #{decrypted_path}")
-    sh("pwd #{decrypted_path}")
+    # sh("pwd #{decrypted_path}")
   end
 
   # delete 
