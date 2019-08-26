@@ -70,14 +70,12 @@ private_lane :setup_env_in_util do |options|
   
   # ./buildsフォルダを作るシェル
   private_lane :scripts_mkdir_in_util do |options|
-  
     sh("mkdir -p builds")
     "./fastlane/builds/"
   end
   
   # deploygate に配信する
   private_lane :deploygate_in_util do |options|
-  
     deploygate(
       api_token: ENV["DEPLOYGATE_API_TOKEN"],
       user: 'datvtwkm',
@@ -86,34 +84,9 @@ private_lane :setup_env_in_util do |options|
       message: "[#{last_git_commit[:abbreviated_commit_hash]}] - #{last_git_commit[:message]}",
     )
   end
-  # # download keystore and decode
-  # private_lane :fetch_keystore do |options|
-  #   sh("openssl version -a");
-  #   sh("git clone https://github.com/datvtwkm/keystore-encrypted.git");
-  #   sh("openssl aes-256-cbc  -d -in keystore-encrypted/keystore-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> keystore.jks")
-  #   sh("pwd keystore.jks")
-  # end
 
-  # # clean keystore 
-  # private_lane :clean_keystore do |options|
-  #   sh("rm -R keystore-encrypted");
-  #   sh("rm -rf keystore.jks");
-  # end
-
-  # # download fetch_jsonkey and decode
-  # private_lane :fetch_jsonkey do |options|
-  #   sh("git clone https://github.com/datvtwkm/jsonkey-encrypted.git");
-  #   sh("openssl aes-256-cbc  -d -in jsonkey-encrypted/jsonkey-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> json_key.json")
-  # end
-
-  # # clean jsonkey 
-  # private_lane :clean_jsonkey do |options|
-  #   sh("rm -R jsonkey-encrypted");
-  #   sh("rm -rf json_key.json");
-  # end
-
-   # download encrypted and decrypt
-   private_lane :fetch_and_decrypt_in_util do |options|
+  # download encrypted and decrypt
+  private_lane :fetch_and_decrypt_in_util do |options|
     git_url= options[:git_url]
     encrypted_path= options[:encrypted_path]
     decrypted_path = options[:decrypted_path]
