@@ -61,11 +61,11 @@ private_lane :setup_env_in_util do |options|
     codesign = file_type == "ipa" ? "--no-codesign" : ""
     target_platform = file_type == "appbundle" ? "--target-platform android-arm,android-arm64" : ""
   
-    if is_ci?
-      sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
-    else
+    # if is_ci?
+    #   sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
+    # else
       sh("cd ../../ &&                   flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
-    end
+    # end
   end
   
   # ./buildsフォルダを作るシェル
@@ -91,6 +91,7 @@ private_lane :setup_env_in_util do |options|
     sh("openssl version -a");
     sh("git clone https://github.com/datvtwkm/keystore-encrypted.git");
     sh("openssl aes-256-cbc  -d -in keystore-encrypted/keystore-encrypted -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> keystore.jks")
+    sh("pwd keystore.jks")
   end
 
   # clean keystore 
