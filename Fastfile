@@ -61,11 +61,15 @@ private_lane :setup_env_in_util do |options|
   end
   
   # download encrypted and decrypt
-  private_lane :fetch_and_decrypt_in_util do |options|
+  private_lane :clone_in_util do |options|
     git_url= options[:git_url]
+    sh("git clone #{git_url}");
+  end
+
+  # download encrypted and decrypt
+  private_lane :decrypt_in_util do |options|
     encrypted_path= options[:encrypted_path]
     decrypted_path = options[:decrypted_path]
-    sh("git clone #{git_url}");
     sh("openssl aes-256-cbc  -d -in #{encrypted_path} -k #{ENV['KEYSTORE_ENCRYPT_SECRET_KEY']} -md md5  >> #{decrypted_path}")
   end
 
