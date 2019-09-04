@@ -47,7 +47,7 @@ end
 
 private_lane :setup_flutter_in_util do |options|
   sh("cd ../../ && $FLUTTER_HOME/bin/flutter analyze")
-  sh("cd ../../ && $FLUTTER_HOME/bin/flutter format")
+  sh("cd ../../ && $FLUTTER_HOME/bin/flutter format ./")
 end
 
 # ./buildsフォルダを作るシェル
