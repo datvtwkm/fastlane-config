@@ -45,6 +45,11 @@ private_lane :build_flutter_in_util do |options|
   sh("cd ../../ && $FLUTTER_HOME/bin/flutter build #{file_type} --release --flavor #{flavor} --target #{target} #{codesign} #{target_platform} --build-name #{version} --build-number #{build_number} -v")
 end
 
+private_lane :setup_flutter_in_util do |options|
+  sh("cd ../../ && $FLUTTER_HOME/bin/flutter analyze")
+  sh("cd ../../ && $FLUTTER_HOME/bin/flutter format")
+end
+
 # ./buildsフォルダを作るシェル
 private_lane :scripts_mkdir_in_util do |options|
   sh("mkdir -p builds")
